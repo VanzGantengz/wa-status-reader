@@ -1,3 +1,17 @@
+PORT = process.env.PORT || 80 || 8080 || 3000
+const express = require('express')
+const app = express()
+app.enable('trust proxy')
+app.set("json spaces",2)
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.all('*', async (req, res) => {
+    res.send('OKE')
+}
+app.listen(PORT, async() => {
+    console.log(`express listen on port ${PORT}`)
+}
+
 const Pino = require("pino")
 const {
     default: makeWASocket, 
