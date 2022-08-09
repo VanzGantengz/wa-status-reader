@@ -1,5 +1,6 @@
 qrwa = null
 PORT = process.env.PORT || 80 || 8080 || 3000
+const qrcode = require('qrcode')
 const express = require('express')
 const app = express()
 app.enable('trust proxy')
