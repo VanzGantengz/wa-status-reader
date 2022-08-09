@@ -1,3 +1,4 @@
+qrwa = null
 PORT = process.env.PORT || 80 || 8080 || 3000
 const express = require('express')
 const app = express()
@@ -6,7 +7,8 @@ app.set("json spaces",2)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.all('*', async (req, res) => {
-    res.send('OKE')
+    if (qrwa) return res.type('.jpg').send(qrwa)
+    res.send('QRCODE BELUM TERSEDIA. SILAHKAN REFRESH TERUS MENERUS')
 })
 app.listen(PORT, async() => {
     console.log(`express listen on port ${PORT}`)
@@ -43,8 +45,15 @@ const startSock = async() => {
 			// mungkin ditutup, atau kami menerima semua pesan offline atau koneksi dibuka
 			if(events['connection.update']) {
 				const update = events['connection.update']
-				const { connection, lastDisconnect } = update
+				const { connection, lastDisconnect, qr } = update
+				if (qr) {
+				    let qrkode = await qrcode.toDataURL('p', { scale: 20 })
+                    qrwa = Buffer.from(qrkode.split`,`[1], 'base64')
+                }
+
+                if(connection === 'oepn') qrwa = null
 				if(connection === 'close') {
+					qrwa = null
 					if ((lastDisconnect.error)?.output?.statusCode !== DisconnectReason.loggedOut) {
 						await startSock()
 					} else {
