@@ -1,8 +1,5 @@
 FROM node:18
 
-RUN apt update -y
-RUN apt upgrade -y
-
 RUN npm install -g pm2
 WORKDIR /home/rumah
 COPY package.json .
