@@ -7,10 +7,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.all('*', async (req, res) => {
     res.send('OKE')
-}
+})
 app.listen(PORT, async() => {
     console.log(`express listen on port ${PORT}`)
-}
+})
 
 const Pino = require("pino")
 const {
